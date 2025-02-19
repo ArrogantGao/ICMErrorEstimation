@@ -160,7 +160,7 @@ begin
         scatter!(ax2, df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :M][1:sp2:end], df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :error_r][1:sp2:end], label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
         lines!(ax2, df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :M], df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :error_r], color = c, linestyle = :dash, linewidth = linewidth)
     end
-    axislegend(ax2, L"$H / L_x$", position = :rb)
+    axislegend(ax1, L"$H / L_x$", position = :rb)
     xlims!(ax2, -2, 102)
     ylims!(ax2, 1e-15, 1e3)
     text!(ax2, 100, 100, text = "(a)", fontsize = 30, align = (:right, :center))
