@@ -74,8 +74,7 @@ begin
     text!(ax1, 5.1, 10^(2), text = "(a)", fontsize = 30, align = (:right, :center))
     text!(ax2, 100, 10^(2), text = "(b)", fontsize = 30, align = (:right, :center))
 
-    save("figs/error_icm_pad_gamma_1_force.pdf", f, px_per_unit = 2)
-    save("figs/error_icm_pad_gamma_1_force.png", f, px_per_unit = 2)
+    save("figs/error_icm_pad_gamma_1_force.pdf", f)
     f
 end
 
@@ -128,8 +127,7 @@ begin
     text!(ax1, 5.1, 10^(1), text = "(a)", fontsize = 30, align = (:right, :center))
     text!(ax2, 50, 10^(1), text = "(b)", fontsize = 30, align = (:right, :center))
 
-    save("figs/error_icm_pad_gamma_0.6_force.pdf", f, px_per_unit = 2)
-    save("figs/error_icm_pad_gamma_0.6_force.png", f, px_per_unit = 2)
+    save("figs/error_icm_pad_gamma_0.6_force.pdf", f)
     f
 end
 
@@ -139,7 +137,7 @@ begin
     ax1 = Axis(f[1, 2], xlabel = L"M", ylabel = L"\mathcal{E}_r", yscale = log10)
     ax2 = Axis(f[1, 1], xlabel = L"M", ylabel = L"\mathcal{E}_r", yscale = log10)
 
-    for (H, l, c, ls, ms) in [(0.5, "0.05", colors[1], linestyle[1], markerstyle[1]), (1.0, "0.1", colors[2], linestyle[2], markerstyle[2]), (5.0, "0.5", colors[3], linestyle[3], markerstyle[3])]
+    for (H, l, c, ls, ms) in [(0.5, "20", colors[1], linestyle[1], markerstyle[1]), (1.0, "10", colors[2], linestyle[2], markerstyle[2]), (5.0, "2", colors[3], linestyle[3], markerstyle[3])]
         scatter!(ax1, df[df.H .== H .&& df.γu .== 1 .&& df.γd .== 1 .&& df.r .== 5, :M][1:sp1:end], df[df.H .== H .&& df.γu .== 1 .&& df.γd .== 1 .&& df.r .== 5, :error_r][1:sp1:end], label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
         lines!(ax1, df[df.H .== H .&& df.γu .== 1 .&& df.γd .== 1 .&& df.r .== 5, :M], df[df.H .== H .&& df.γu .== 1 .&& df.γd .== 1 .&& df.r .== 5, :error_r], color = c, linestyle = :dash, linewidth = linewidth)
     end
@@ -156,16 +154,15 @@ begin
     text!(ax1, 100, 200, text = "(b)", fontsize = 30, align = (:right, :center))
 
     sp2 = 1
-    for (H, l, c, ls, ms) in [(0.5, "0.05", colors[1], linestyle[1], markerstyle[1]), (1.0, "0.1", colors[2], linestyle[2], markerstyle[2]), (5.0, "0.5", colors[3], linestyle[3], markerstyle[3])]
+    for (H, l, c, ls, ms) in [(0.5, "20", colors[1], linestyle[1], markerstyle[1]), (1.0, "10", colors[2], linestyle[2], markerstyle[2]), (5.0, "2", colors[3], linestyle[3], markerstyle[3])]
         scatter!(ax2, df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :M][1:sp2:end], df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :error_r][1:sp2:end], label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
         lines!(ax2, df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :M], df[df.H .== H .&& df.γu .== 0.6 .&& df.γd .== 0.6 .&& df.r .== 5, :error_r], color = c, linestyle = :dash, linewidth = linewidth)
     end
-    axislegend(ax1, L"$H / L_x$", position = :rb)
+    axislegend(ax1, L"$L_x / H$", position = :rb)
     xlims!(ax2, -2, 102)
     ylims!(ax2, 1e-15, 1e3)
     text!(ax2, 100, 100, text = "(a)", fontsize = 30, align = (:right, :center))
 
-    save("figs/icm_elc_error_force.pdf", f, px_per_unit = 2)
-    save("figs/icm_elc_error_force.png", f, px_per_unit = 2)
+    save("figs/icm_elc_error_force.pdf", f)
     f
 end
