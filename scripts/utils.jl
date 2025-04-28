@@ -90,3 +90,8 @@ function load_refs()
     refs = CSV.read("data/refs.csv", DataFrame)
     return refs
 end
+
+function load_refs_n2()
+    refs = CSV.read("data/refs_n2.csv", DataFrame)
+    return refs
+end

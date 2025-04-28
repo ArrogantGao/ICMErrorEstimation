@@ -1,5 +1,6 @@
 using CSV, DataFrames
 using CairoMakie, LaTeXStrings
+using Statistics
 using LsqFit
 
 colors = [:red, :blue, :green, :purple, :orange, :brown, :pink, :gray, :black]

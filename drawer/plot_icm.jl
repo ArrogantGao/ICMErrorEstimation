@@ -11,12 +11,17 @@ begin
 
     # for H in [0.5, 1.0, 5.0]
     for (l, H, ms, ls, c) in [("20", 0.5, markerstyle[1], linestyle[1], colors[1]), ("10", 1.0, markerstyle[2], linestyle[2], colors[2]), ("2", 5.0, markerstyle[3], linestyle[3], colors[3])]
-        scatter!(ax1, df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0, :M], df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0, :error_r], label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
+
+        Ms = unique(df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0, :M])
+        errors = df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0 .&& df.i .== 1, :error_r]
+
+        scatter!(ax1, Ms, errors, label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
+
         @. model(x, p) = p[1] + x*p[2]
         p0 = [1.0, 1.0]
-        filter = df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0, :error_r] .> 1e-9
-        xdata = df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0, :M][filter]
-        ydata = log10.(df[df.H .== H .&& df.γu .== 1.0 .&& df.γd .== 1.0, :error_r][filter])
+        filter = errors .> 1e-9
+        xdata = Ms[filter]
+        ydata = log10.(errors[filter])
         fit = curve_fit(model, xdata, ydata, p0)
         lines!(ax1, [0:20...], 10 .^ model([0:20...], fit.param), color = c, linestyle = :dash, linewidth = linewidth)
     end
@@ -25,13 +30,17 @@ begin
     ylims!(ax1, 1e-14, 10)
     text!(ax1, 19.5, 1e-1, text = "(a)", fontsize = 30, align = (:right, :bottom))
 
-    for (l, γ, ms, ls, c) in [("0.3", 0.3, markerstyle[1], linestyle[1], colors[1]), ("0.6", 0.6, markerstyle[2], linestyle[2], colors[2]), ("1.0", 1.0, markerstyle[3], linestyle[3], colors[3])]
-        scatter!(ax2, df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :M], df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :error_r], label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
+    for (l, γ, ms, ls, c) in [("1.0", 1.0, markerstyle[1], linestyle[1], colors[1]), ("0.6", 0.6, markerstyle[2], linestyle[2], colors[2]), ("0.3", 0.3, markerstyle[3], linestyle[3], colors[3])]
+
+        Ms = unique(df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :M])
+        errors = df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ .&& df.i .== 1, :error_r]
+
+        scatter!(ax2, Ms, errors, label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
         @. model(x, p) = p[1] + x*p[2]
         p0 = [1.0, 1.0]
-        filter = df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :error_r] .> 1e-9
-        xdata = df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :M][filter]
-        ydata = log10.(df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :error_r][filter])
+        filter = errors .> 1e-9
+        xdata = Ms[filter]
+        ydata = log10.(errors[filter])
         fit = curve_fit(model, xdata, ydata, p0)
         lines!(ax2, [0:40...], 10 .^ model([0:40...], fit.param), color = c, linestyle = :dash, linewidth = linewidth)
     end
