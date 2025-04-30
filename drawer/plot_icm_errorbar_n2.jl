@@ -19,7 +19,11 @@ begin
 
         errorbars!(ax1, Ms, mean.(errors), low_errors, high_errors, color = c, linewidth = linewidth, whiskerwidth = 10)
 
-        scatter!(ax1, Ms,mean.(errors), marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth, label = l)
+        scatter!(ax1, Ms,mean.(errors), marker = ms, markersize = 10, color = c, label = l)
+
+        ub_ms = [-1:2:30...]
+        ub = [icm_energy_error(10.0, 10.0, H, M, 1, 4, 1, 1) for M in ub_ms]
+        lines!(ax1, ub_ms, ub, color = c, linestyle = :dash, linewidth = linewidth)
         
         # @. model(x, p) = p[1] + x*p[2]
         # p0 = [1.0, 1.0]
@@ -42,8 +46,12 @@ begin
         low_errors = mean.(errors) .- minimum.(errors)
 
         errorbars!(ax2, Ms, mean.(errors), low_errors, high_errors, color = c, linewidth = linewidth, whiskerwidth = 10)
-        scatter!(ax2, Ms, mean.(errors), marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth, label = l)
+        scatter!(ax2, Ms, mean.(errors), marker = ms, markersize = 10, color = c, label = l)
         
+        ub_ms = [-1:2:30...]
+        ub = [icm_energy_error(10.0, 10.0, 1.0, M, 1, 4, γ, γ) for M in ub_ms]
+        lines!(ax2, ub_ms, ub, color = c, linestyle = :dash, linewidth = linewidth)
+
         # @. model(x, p) = p[1] + x*p[2]
         # p0 = [1.0, 1.0]
         # filter = df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ, :error_a] .> 1e-9
