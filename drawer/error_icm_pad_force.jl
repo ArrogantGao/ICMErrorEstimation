@@ -21,13 +21,10 @@ begin
 
         xdata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.M .== M, :r][r]
         ydata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.M .== M, :error_r][r]
-        @. model(x, p) = p[1] + x * p[2]
-        p0 = [0.0, 0.0]
-        fit = curve_fit(model, xdata, log10.(ydata), p0)
-        p = fit.param
+
         fit_x = [-1:0.1:6...]
-        fit_y = model(fit_x, p)
-        lines!(ax1, fit_x, 10.0 .^ fit_y, color = c, linestyle = :dash, linewidth = 2)
+        fit_y = exp_fit(xdata, ydata, (- 2π) * log10(exp(1)), fit_x)
+        lines!(ax1, fit_x, fit_y, color = c, linestyle = :dash, linewidth = 2)
 
         scatter!(ax1, df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.M .== M, :r][1:sp1:end], df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.M .== M, :error_r][1:sp1:end], label = "$M", marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
     end
@@ -42,15 +39,11 @@ begin
         scatter!(ax2, df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== r, :M][1:sp2:end], df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== r, :error_r][1:sp2:end], label = "$r", marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
     end
 
-    @. model(x, p) = p[1] + x * p[2]
-    p0 = [0.0, 0.0]
     xdata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== 5, :M][1:10]
     ydata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== 5, :error_r][1:10]
-    fit = curve_fit(model, xdata, log10.(ydata), p0)
-    p = fit.param
     fit_x = [-5:0.1:105...]
-    fit_y = model(fit_x, p)
-    lines!(ax2, fit_x, 10.0 .^ fit_y, color = :black, linestyle = :dash, linewidth = 2)
+    fit_y = exp_fit(xdata, ydata, (- 2π * H / 10) * log10(exp(1)), fit_x)
+    lines!(ax2, fit_x, fit_y, color = :black, linestyle = :dash, linewidth = 2)
 
     ranges = [4:6, 8:14, 15:20]
     for (i, r) in [(1, 1), (2, 3), (3, 5)]
@@ -58,13 +51,9 @@ begin
         xdata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== r, :M][ranges[i]]
         ydata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== r, :error_r][ranges[i]]
 
-        @. model(x, p) = p[1] + x * p[2]
-        p0 = [0.0, 0.0]
-        fit = curve_fit(model, xdata, log10.(ydata), p0)
-        p = fit.param
         fit_x = [-5:0.1:105...]
-        fit_y = model(fit_x, p)
-        lines!(ax2, fit_x, 10.0 .^ fit_y, color = c, linestyle = :dash, linewidth = 2)
+        fit_y = exp_fit(xdata, ydata, (2π * H / 10) * log10(exp(1)), fit_x)
+        lines!(ax2, fit_x, fit_y, color = c, linestyle = :dash, linewidth = 2)
     end
 
     axislegend(ax2, L"$P$", position = :lb)
@@ -94,15 +83,11 @@ begin
     xlims!(ax1, -0.25, 5.25)
     ylims!(ax1, 1e-15, 1e2)
 
-    @. model(x, p) = p[1] + x * p[2]
-    p0 = [0.0, 0.0]
     xdata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.M .== 45, :r][1:end - 1]
     ydata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.M .== 45, :error_r][1:end - 1]
-    fit = curve_fit(model, xdata, log10.(ydata), p0)
-    p = fit.param
     fit_x = [-1:0.1:6...]
-    fit_y = model(fit_x, p)
-    lines!(ax1, fit_x, 10.0 .^ fit_y, color = :black, linestyle = :dash, linewidth = 2)
+    fit_y = exp_fit(xdata, ydata, (- 2π) * log10(exp(1)), fit_x)
+    lines!(ax1, fit_x, fit_y, color = :black, linestyle = :dash, linewidth = 2)
 
 
     sp2 = 1
@@ -114,15 +99,12 @@ begin
     xlims!(ax2, -2.5, 52.5)
     ylims!(ax2, 1e-15, 1e2)
 
-    @. model(x, p) = p[1] + x * p[2]
-    p0 = [0.0, 0.0]
     xdata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== 5, :M][1:7]
     ydata = df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== 5, :error_r][1:7]
-    fit = curve_fit(model, xdata, log10.(ydata), p0)
-    p = fit.param
     fit_x = [-10:0.1:100...]
-    fit_y = model(fit_x, p)
-    lines!(ax2, fit_x, 10.0 .^ fit_y, color = :black, linestyle = :dash, linewidth = 2)
+    fit_y = exp_fit(xdata, ydata, log10(gamma) + ( - 2π * H / 10) * log10(exp(1)), fit_x)
+    lines!(ax2, fit_x, fit_y, color = :black, linestyle = :dash, linewidth = 2)
+
 
     text!(ax1, 5.1, 10^(1), text = "(a)", fontsize = 30, align = (:right, :center))
     text!(ax2, 50, 10^(1), text = "(b)", fontsize = 30, align = (:right, :center))

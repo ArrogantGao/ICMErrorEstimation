@@ -17,13 +17,14 @@ begin
 
         scatter!(ax1, Ms, errors, label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
 
-        @. model(x, p) = p[1] + x*p[2]
-        p0 = [1.0, 1.0]
+        
         filter = errors .> 1e-9
         xdata = Ms[filter]
-        ydata = log10.(errors[filter])
-        fit = curve_fit(model, xdata, ydata, p0)
-        lines!(ax1, [0:20...], 10 .^ model([0:20...], fit.param), color = c, linestyle = :dash, linewidth = linewidth)
+        ydata = errors[filter]
+
+        fit_x = [0:20...]
+        fit_y = exp_fit(xdata, ydata, (- 2π * H / 10) * log10(exp(1)), fit_x)
+        lines!(ax1, fit_x, fit_y, color = c, linestyle = :dash, linewidth = linewidth)
     end
     axislegend(ax1, L"L_x / H", position = :lb)
     xlims!(ax1, 0, 20)
@@ -36,13 +37,14 @@ begin
         errors = df[df.H .== 1.0 .&& df.γu .== γ .&& df.γd .== γ .&& df.i .== 1, :error_r]
 
         scatter!(ax2, Ms, errors, label = l, marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
-        @. model(x, p) = p[1] + x*p[2]
-        p0 = [1.0, 1.0]
+
         filter = errors .> 1e-9
         xdata = Ms[filter]
-        ydata = log10.(errors[filter])
-        fit = curve_fit(model, xdata, ydata, p0)
-        lines!(ax2, [0:40...], 10 .^ model([0:40...], fit.param), color = c, linestyle = :dash, linewidth = linewidth)
+        ydata = errors[filter]
+
+        fit_x = [0:40...]
+        fit_y = exp_fit(xdata, ydata, log10(γ) + (- 2π * 1.0 / 10) * log10(exp(1)), fit_x)
+        lines!(ax2, fit_x, fit_y, color = c, linestyle = :dash, linewidth = linewidth)
     end
     axislegend(ax2, L"\gamma", position = :lb)
     xlims!(ax2, 0, 30)
