@@ -13,7 +13,7 @@ begin
 
     H = 5.0
     labels = ["random", "equilibrium", "dipole"]
-    Cqs = [46^2, 39 * 4, 4]
+    Cqs = [46^2, 40, 4]
     n_atomss = [1, 1, 1]
     for i in 1:3
         df = dfs[i]
@@ -37,7 +37,7 @@ begin
     end
     axislegend(ax1, "system", position = :lb)
     xlims!(ax1, 0, 8)
-    ylims!(ax1, 1e-14, 1)
+    ylims!(ax1, 1e-14, 1e2)
 
 
     save("figs/icm_error_compare.pdf", f)

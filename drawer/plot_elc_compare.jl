@@ -13,7 +13,7 @@ begin
 
     Lx = 10.0
     H = 5.0
-    Cqs = [46^2, 39 * 4, 4]
+    Cqs = [46^2, 40, 4]
     n_atomss = [1, 1, 1]
 
     for (i, df) in enumerate(dfs)

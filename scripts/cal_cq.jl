@@ -14,7 +14,32 @@ function load_data(jld_path)
     return coords, charge, L
 end
 
-i = 1
-jld_path = "reference_results/Lx_10.0_Ly_10.0_H_5.0_n_39_md_$(i).jld2"
-coords, charge, L = load_data(jld_path)
+for i in 1:10
+    jld_path = "reference_results/Lx_10.0_Ly_10.0_H_5.0_n_39_md_$(i).jld2"
+    coords, charge, L = load_data(jld_path)
+    Lx, Ly, H = L
 
+    n_max = 10
+    for ni in 1:length(charge)
+        Cq = 0.0
+        mxmy = (0.0, 0.0)
+        for mx in -n_max:n_max
+            for my in -n_max:n_max
+                if mx == 0 && my == 0
+                    continue
+                end
+                kx = 2π * mx / Lx
+                ky = 2π * my / Ly
+                t = 0.0
+                for nj in 1:length(charge)
+                    t += charge[nj] * exp(im * (kx * (coords[ni][1] - coords[nj][1]) + ky * (coords[ni][2] - coords[nj][2])))
+                end
+                if abs(t) > Cq
+                    mxmy = (mx, my)
+                    Cq = abs(t)
+                end
+            end
+        end
+        @show i, ni, Cq, mxmy
+    end
+end

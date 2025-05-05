@@ -11,7 +11,7 @@ begin
 
     sp1 = 1
     H = 5.0
-    Cqs = [46^2, 39 * 4, 4]
+    Cqs = [46^2, 40, 4]
 
     for i in 1:3
         M = 7
@@ -27,13 +27,13 @@ begin
         errorbars!(ax1, rs, mean.(errors), low_errors, high_errors, color = c, linewidth = linewidth, whiskerwidth = 10, label = labels[i])
         scatter!(ax1, rs, mean.(errors), marker = ms, markersize = 10, color = c)
 
-        xs = [0.1:0.5:10.6...]
+        xs = [3.6:0.5:10.6...]
         ys = abs.([icm_elc_energy_error(10, 10, 5 + 10 * x, 5, 7, 1, Cq, gamma, gamma) for x in xs])
         lines!(ax1, xs, ys, color = c, linestyle = :dash, linewidth = linewidth)
     end
     axislegend(ax1, "system", position = :lb)
     xlims!(ax1, 0.5, 10.5)
-    ylims!(ax1, 1e-12, 1e2)
+    ylims!(ax1, 1e-14, 1e2)
 
 
     sp2 = 1
@@ -55,7 +55,6 @@ begin
 
         xs = [-1:2:15...]
         ys = abs.([icm_elc_energy_error(10, 10, 5 + 10 * r, 4.999, x, 1, Cq, gamma, gamma) + icm_energy_error(10, 10, 5, x, 1, Cq, gamma, gamma) for x in xs])
-        @show ys
         lines!(ax2, xs, ys, color = c, linestyle = :dash, linewidth = linewidth)
     end
 
