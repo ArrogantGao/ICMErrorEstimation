@@ -7,7 +7,7 @@ df = CSV.read(data_file, DataFrame)
 begin
     gamma = 1.0
     f = Figure(backgroundcolor = RGBf(1.0, 1.0, 1.0), size = (1000, 400), fontsize = 20)
-    ax1 = Axis(f[1, 1], xlabel = L"P", ylabel = L"\mathcal{E}_r", yscale = log10)
+    ax1 = Axis(f[1, 1], xlabel = L"R", ylabel = L"\mathcal{E}_r", yscale = log10)
     ax2 = Axis(f[1, 2], xlabel = L"M", ylabel = L"\mathcal{E}_r", yscale = log10)
 
     sp1 = 1
@@ -56,7 +56,7 @@ begin
         lines!(ax2, fit_x, fit_y, color = c, linestyle = :dash, linewidth = 2)
     end
 
-    axislegend(ax2, L"$P$", position = :lb)
+    axislegend(ax2, L"$R$", position = :lb)
     xlims!(ax2, -5, 105)
     ylims!(ax2, 1e-9, 1e3)
 
@@ -64,6 +64,7 @@ begin
     text!(ax2, 100, 10^(2), text = "(b)", fontsize = 30, align = (:right, :center))
 
     save("figs/error_icm_pad_gamma_1_force.pdf", f)
+    save("figs/error_icm_pad_gamma_1_force.svg", f)
     f
 end
 
@@ -71,7 +72,7 @@ end
 begin
     gamma = 0.6
     f = Figure(backgroundcolor = RGBf(1.0, 1.0, 1.0), size = (1000, 400), fontsize = 20)
-    ax1 = Axis(f[1, 1], xlabel = L"P", ylabel = L"\mathcal{E}_r", yscale = log10)
+    ax1 = Axis(f[1, 1], xlabel = L"R", ylabel = L"\mathcal{E}_r", yscale = log10)
     ax2 = Axis(f[1, 2], xlabel = L"M", ylabel = L"\mathcal{E}_r", yscale = log10)
 
     sp1 = 1
@@ -95,7 +96,7 @@ begin
     for (r, c, ls, ms) in [(1, colors[1], linestyle[1], markerstyle[1]), (3, colors[2], linestyle[2], markerstyle[2]), (5, colors[3], linestyle[3], markerstyle[3])]
         scatter!(ax2, df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== r, :M][1:sp2:11], df[df.γu .== gamma .&& df.γd .== gamma .&& df.H .== H .&& df.r .== r, :error_r][1:sp2:11], label = "$r", marker = ms, markersize = markersize, color = c, strokecolor = strokecolor, strokewidth = strokewidth)
     end
-    axislegend(ax2, L"$P$", position = :lb)
+    axislegend(ax2, L"$R$", position = :lb)
     xlims!(ax2, -2.5, 52.5)
     ylims!(ax2, 1e-15, 1e2)
 
@@ -110,6 +111,7 @@ begin
     text!(ax2, 50, 10^(1), text = "(b)", fontsize = 30, align = (:right, :center))
 
     save("figs/error_icm_pad_gamma_0.6_force.pdf", f)
+    save("figs/error_icm_pad_gamma_0.6_force.svg", f)
     f
 end
 
@@ -146,5 +148,6 @@ begin
     text!(ax2, 100, 100, text = "(a)", fontsize = 30, align = (:right, :center))
 
     save("figs/icm_elc_error_force.pdf", f)
+    save("figs/icm_elc_error_force.svg", f)
     f
 end

@@ -62,7 +62,7 @@ begin
     ylims!(ax4, 1e-13, 1e1)
     text!(ax4, 97.5, 1, text = "(d)", fontsize = 30, align = (:right, :center))
 
-    save("figs/error_parameter_selection_force.pdf", f, px_per_unit = 2)
-    save("figs/error_parameter_selection_force.png", f, px_per_unit = 2)
+    save("figs/error_parameter_selection_force.pdf", f)
+    save("figs/error_parameter_selection_force.svg", f)
     f
 end

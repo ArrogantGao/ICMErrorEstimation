@@ -37,7 +37,7 @@ begin
     ylims!(ax2, 1e-14, 1e1)
     text!(ax2, 47.5, 1, text = "(b)", fontsize = 30, align = (:right, :center))
 
-    save("figs/error_parameter_selection.pdf", f, px_per_unit = 2)
-    save("figs/error_parameter_selection.png", f, px_per_unit = 2)
+    save("figs/error_parameter_selection.pdf", f)
+    save("figs/error_parameter_selection.svg", f)
     f
 end
