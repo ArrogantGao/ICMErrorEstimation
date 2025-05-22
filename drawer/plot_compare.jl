@@ -16,7 +16,7 @@ Cqs = [46^2, 40, 4]
 n_atomss = [1, 1, 1]
 
 begin
-    f = Figure(backgroundcolor = RGBf(1.0, 1.0, 1.0), size = (800, 600), fontsize = 20)
+    f = Figure(backgroundcolor = RGBf(1.0, 1.0, 1.0), size = (1000, 800), fontsize = 20)
 
     ax1 = Axis(f[1, 1], xlabel = L"M", ylabel = L"\langle \mathcal{E} \rangle", yscale = log10)
     ax2 = Axis(f[1, 2], xlabel = L"$P$", ylabel = L"\langle \mathcal{E} \rangle", yscale = log10)
@@ -43,7 +43,7 @@ begin
         ys = [icm_energy_error(10, 10, 5, x, 1, Cq, 1, 1) / n_atoms for x in xs]
         lines!(ax1, xs, ys, color = c, linestyle = :dash, linewidth = linewidth)
     end
-    axislegend(ax1, position = :lb, labelsize = 15)
+    axislegend(ax1, position = :lb)
     xlims!(ax1, 0, 8)
     ylims!(ax1, 1e-14, 1e2)
 
